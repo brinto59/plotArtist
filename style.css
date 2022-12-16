@@ -18,3 +18,9 @@ body{
     width: 800px;
     height: 300px;
 }
+.plot-num{
+    border: 1px solid black;
+}
+.plot-info{
+    border: 1px black solid;
+}
