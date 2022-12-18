@@ -13,14 +13,18 @@
   </head>
   <body>
     <main class="main-container">
+        <header class="main-header">
+            <h1>Plot Artist</h1>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque ut minus nobis?</p>
+        </header>
         <div class="display-container">
             <div class="plot-display"></div>
             <div class="download-btn"></div>
         </div>
-        <form action="#" method="post">
+        <form action="#" method="post" class="form-container">
             <div class="plot-num">
-                <label for="plotNum">Plot Number:</label>
-                <input type="text" id="plotNum">
+                <label for="plotNum">Number of Plots:</label>
+                <input type="number" id="plotNum" min="1" max="50">
             </div>
             <div class="plot-info" data-plot-no="1">
                 <header class="plot-info-header">
@@ -28,117 +32,128 @@
                 </header>
                 <div class="curve-num">
                     <label for="curveNum">Curve Number:</label>
-                    <input type="number" id="curveNum">
+                    <input type="number" id="curveNum" min="1" max="50">
                 </div>
                 <div class="curve-info" data-curve-no="1">
-                    <header class="Curve-info-header">
-                        <h1>Curve information of no. 1</h1>
+                    <header class="curve-info-header">
+                        <h2>Curve information of no. 1</h2>
                     </header>
                     <div class="x-axis">
                         <label for="xAxis1">X-axis:</label>
                         <input type="text" id="xAxis1">
                     </div>
                     <div class="y-axis">
-                        <label for="yAxis1">X-axis:</label>
+                        <label for="yAxis1">Y-axis:</label>
                         <input type="text" id="yAxis1">
                     </div>
-                    <div class="line-style">
-                        <select name="select-linestyle" id="select-line-style">
-                            <option value="-" selected>Solid</option>
-                            <option value=":">Dotted</option>
-                            <option value="--">Dashed</option>
-                            <option value="-.">Dashdot</option>
-                        </select>
-                    </div>
-                    <div class="line-color">
-                        <label for="line-color-input">Line color:</label>
-                        <input type="color" id="line-color-input" value="#000000">
-                    </div>
-                    <div class="line-width">
-                        <label for="line-width-input">Line width:</label>
-                        <input type="number" id="line-width-input" value="1" min="1" max="5">
-                    </div>
-                    <div class="label-legend">   <!--if isLegend is checked then it will be showed-->
-                        <label for="labelLegend">Label for Legend</label>
-                        <input type="text" id="labelLegend">
+                    <div class="sub-curve-info-container">
+                        <div class="line-style">
+                            <label for="select-line-style">Line style:</label>
+                            <select name="select-linestyle" id="select-line-style">
+                                <option value="-" selected>Solid</option>
+                                <option value=":">Dotted</option>
+                                <option value="--">Dashed</option>
+                                <option value="-.">Dashdot</option>
+                            </select>
+                        </div>
+                        <div class="line-color">
+                            <label for="line-color-input">Line color:</label>
+                            <input type="color" id="line-color-input" value="#000000">
+                        </div>
+                        <div class="line-width">
+                            <label for="line-width-input">Line width:</label>
+                            <input type="number" id="line-width-input" value="1" min="1" max="5">
+                        </div>
+                        <div class="label-legend">   <!--if isLegend is checked then it will be showed-->
+                            <label for="labelLegend">Label for Legend:</label>
+                            <input type="text" id="labelLegend">
+                        </div>
                     </div>
 
                 </div>
                 <div class="axis-range">
                     <h2>Axis Range</h2>
-                    <div class="x-axis-range">
-                        <h2>For X-axis:</h2>
-                        <div class="x-axis-range-start">
-                            <label for="xAxisRangeStart">Start:</label>
-                            <input type="text" id="xAxisRangeStart">
+                    <div class="sub-axis-range-container">
+                        <div class="x-axis-range">
+                            <h3>For X-axis</h2>
+                            <div class="x-axis-range-start">
+                                <label for="xAxisRangeStart">Start:</label>
+                                <input type="text" id="xAxisRangeStart">
+                            </div>
+                            <div class="x-axis-range-end">
+                                <label for="xAxisRangeEnd">End:</label>
+                                <input type="text" id="xAxisRangeEnd">
+                            </div>
                         </div>
-                        <div class="x-axis-range-end">
-                            <label for="xAxisRangeEnd">End:</label>
-                            <input type="text" id="xAxisRangeEnd">
-                        </div>
-                    </div>
-                    <div class="y-axis-range">
-                        <h2>For Y-axis:</h2>
-                        <div class="y-axis-range-start">
-                            <label for="yAxisRangeStart">Start:</label>
-                            <input type="text" id="yAxisRangeStart">
-                        </div>
-                        <div class="y-axis-range-end">
-                            <label for="yAxisRangeEnd">End:</label>
-                            <input type="text" id="yAxisRangeEnd">
+                        <div class="y-axis-range">
+                            <h3>For Y-axis</h2>
+                            <div class="y-axis-range-start">
+                                <label for="yAxisRangeStart">Start:</label>
+                                <input type="text" id="yAxisRangeStart">
+                            </div>
+                            <div class="y-axis-range-end">
+                                <label for="yAxisRangeEnd">End:</label>
+                                <input type="text" id="yAxisRangeEnd">
+                            </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="label">
                     <header class="label-header">
-                        <h1>Label</h1>
+                        <h2>Label</h2>
                     </header>
                     <div class="x-label-container">
                         <header class="x-label-header">
-                            <h1>X-Label</h1>
+                            <h2>X-Label</h2>
                         </header>
-                        <div class="x-label">
-                            <label for="xLabel">X-label:</label>
-                            <input type="text" id="xLabel">
-                        </div>
-                        <div class="fontdict-x">
-                            <div class="font-family-x">
-                                <label for="fontFamilyX">Font:</label>
-                                <input type="text" id="fontFamilyX">
+                        <div class="sub-x-label-container">
+                            <div class="x-label">
+                                <label for="xLabel">X-label:</label>
+                                <input type="text" id="xLabel">
                             </div>
                             <div class="x-label-color">
                                 <label for="x-label-color-input">Label color:</label>
                                 <input type="color" id="x-label-color-input" value="#000000">
+                            </div>
+                        </div>
+                        <div class="sub-x-label-container">
+                            <div class="font-family-x">
+                                <label for="fontFamilyX">Font:</label>
+                                <input type="text" id="fontFamilyX">
                             </div>
                             <div class="x-font-size">
                                 <label for="xLabelFontSize">Font size:</label>
                                 <input type="number" id="xLabelFontSize" min="5" max="30" value="13">
                             </div>
                         </div>
+                        
                     </div>
                     <div class="y-label-container">
                         <header class="y-label-header">
-                            <h1>Y-Label</h1>
+                            <h2>Y-Label</h2>
                         </header>
-                        <div class="y-label">
-                            <label for="yLabel">Y-label:</label>
-                            <input type="text" id="yLabel">
-                        </div>
-                        <div class="fontdict-y">
-                            <div class="font-family-y">
-                                <label for="fontFamilyY">Font:</label>
-                                <input type="text" id="fontFamilyY">
+                        <div class="sub-y-label-container">
+                            <div class="y-label">
+                                <label for="yLabel">Y-label:</label>
+                                <input type="text" id="yLabel">
                             </div>
                             <div class="y-label-color">
                                 <label for="y-label-color-input">Label color:</label>
                                 <input type="color" id="y-label-color-input" value="#000000">
+                            </div>
+                        </div>
+                        <div class="sub-y-label-container">
+                            <div class="font-family-y">
+                                <label for="fontFamilyY">Font:</label>
+                                <input type="text" id="fontFamilyY">
                             </div>
                             <div class="y-font-size">
                                 <label for="yLabelFontSize">Font size:</label>
                                 <input type="number" id="yLabelFontSize" min="5" max="30" value="13">
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="title">

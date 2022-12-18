@@ -2,25 +2,154 @@
     margin:0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
+}
+input[type="color"]{
+    height:20px
 }
 body{
     min-height: 100vh;
-
+    display: flex;
+    justify-content: center;
+    background-color: #eff6ff;
 }
 .main-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    width: 1400px;
+    border: 1px black solid;
+    /* background: linear-gradient(-55deg,#001f45 2.5%, #284466 25%, #395373 55%, #607b9c 100%); */
+    background: repeating-linear-gradient(-55deg,#6d8bb1 0%, #ffffff 0.1%);
+}
+.main-header{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
 }
 .display-container{
     border: 1px red solid;
     width: 800px;
     height: 300px;
 }
-.plot-num{
-    border: 1px solid black;
+.form-container{
+    width: 800px;
+    border: 1px black solid;
+}
+.plot-num, .curve-num{
+    border: solid rgb(85, 80, 80);
+    border-width: 0px 0px 1px 0px;
+    margin: 10px 0px;
+    font-size: 18px;
+}
+.plot-num input, .curve-num input{
+    margin: 5px 0px;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid black ;
+    padding-left:4px;
 }
 .plot-info{
     border: 1px black solid;
+}
+.curve-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 5px;
+}
+
+.curve-info>div{
+ width: 710px;
+}
+.x-axis label, .y-axis label{
+    width: 50px;
+    display: inline-block;
+}
+.x-axis input, .y-axis input{
+    width: 650px;
+    outline: none;
+}
+.sub-curve-info-container{
+    display: flex;
+    flex-direction: row;
+}
+.sub-curve-info-container>div{
+    width: 150px;
+    display: flex;
+    align-items: center;
+}
+.sub-curve-info-container .label-legend{
+    width: 288px;
+}
+.sub-curve-info-container .label-legend input{
+    width: 168px;
+    outline: none;
+}
+.sub-curve-info-container .line-color{
+    width: 131px;
+}
+.sub-curve-info-container .line-width{
+    width: 140px;
+}
+.sub-curve-info-container .line-width input{
+    outline: none;
+}
+.axis-range{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sub-axis-range-container{
+    display: flex;
+    flex-direction: row;
+
+}
+.x-axis-range, .y-axis-range{
+    width: 170px;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+}
+.x-axis-range label, .y-axis-range label{
+    width: 38px;
+    text-align: right;
+    display: inline-block;
+    /* border: 1px black solid; */
+}
+.x-axis-range input, .y-axis-range input{
+    width: 83px;
+}
+.label{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    align-items: center;
+}
+.label .label-header h2{
+    font-size: 29px;
+}
+.x-label-container, .y-label-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 6px;
+}
+.sub-x-label-container, .sub-y-label-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 4px;
+}
+.sub-x-label-container>div, .sub-y-label-container>div{
+    display: flex;
+    align-items: center;
+}
+.x-label input, .y-label input{
+    width: 200px;
+}
+.x-font-size input, .y-font-size input{
+    width: 50px;
 }
