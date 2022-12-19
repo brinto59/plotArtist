@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>plotArtist</title>
     <link rel="stylesheet" href="./style.css">
+    <script defer src="./index.js"></script>
     <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
     <style>
@@ -58,7 +59,7 @@
                         </div>
                         <div class="line-color">
                             <label for="line-color-input">Line color:</label>
-                            <input type="color" id="line-color-input" value="#000000">
+                            <input type="color" id="line-color-input" value="#01214a">
                         </div>
                         <div class="line-width">
                             <label for="line-width-input">Line width:</label>
@@ -114,13 +115,13 @@
                             </div>
                             <div class="x-label-color">
                                 <label for="x-label-color-input">Label color:</label>
-                                <input type="color" id="x-label-color-input" value="#000000">
+                                <input type="color" id="x-label-color-input" value="#01214a">
                             </div>
                         </div>
                         <div class="sub-x-label-container">
                             <div class="font-family-x">
                                 <label for="fontFamilyX">Font:</label>
-                                <input type="text" id="fontFamilyX">
+                                <input type="text" id="fontFamilyX" value="serif">
                             </div>
                             <div class="x-font-size">
                                 <label for="xLabelFontSize">Font size:</label>
@@ -140,13 +141,13 @@
                             </div>
                             <div class="y-label-color">
                                 <label for="y-label-color-input">Label color:</label>
-                                <input type="color" id="y-label-color-input" value="#000000">
+                                <input type="color" id="y-label-color-input" value="#01214a">
                             </div>
                         </div>
                         <div class="sub-y-label-container">
                             <div class="font-family-y">
                                 <label for="fontFamilyY">Font:</label>
-                                <input type="text" id="fontFamilyY">
+                                <input type="text" id="fontFamilyY" value="serif">
                             </div>
                             <div class="y-font-size">
                                 <label for="yLabelFontSize">Font size:</label>
@@ -160,33 +161,36 @@
                     <header class="title-header">
                         <h1>Title</h1>
                     </header>
-                    <div class="title-container">
-                        <label for="title-input">Title:</label>
-                        <input type="text" id="title-input">
-                    </div>
-                    <div class="title-info">
-                        <div class="fontdict-title">
-                            <div class="font-family-title">
-                                <label for="fontFamilyTitle">Font:</label>
-                                <input type="text" id="fontFamilyTitle">
-                            </div>
-                            <div class="title-color">
-                                <label for="title-color-input">Title color:</label>
-                                <input type="color" id="title-color-input" value="#000000">
-                            </div>
-                            <div class="title-font-size">
-                                <label for="titleFontSize">Font size:</label>
-                                <input type="number" id="titleFontSize" min="5" max="40" value="15">
-                            </div>
+                    <div class="sub-title-container">
+                        <div class="title-container">
+                            <label for="title-input">Title:</label>
+                            <input type="text" id="title-input">
                         </div>
-                        <div class="loc">
-                            <select id="select-title-loc">
-                                <option value="center" selected>Center</option>
-                                <option value="right">Right</option>
-                                <option value="left">Left</option>
-                            </select>
+                        <div class="title-color">
+                            <label for="title-color-input">Title color:</label>
+                            <input type="color" id="title-color-input" value="#01214a">
                         </div>
                     </div>
+                    
+                    <div class="sub-title-container">
+                        <div class="font-family-title">
+                            <label for="fontFamilyTitle">Font:</label>
+                            <input type="text" id="fontFamilyTitle" value="serif">
+                        </div>
+                        <div class="title-font-size">
+                            <label for="titleFontSize">Font size:</label>
+                            <input type="number" id="titleFontSize" min="5" max="40" value="15">
+                        </div>
+                    </div>
+                    <div class="loc">
+                        <label for="select-title-loc">Location:</label>
+                        <select id="select-title-loc">
+                            <option value="center" selected>Center</option>
+                            <option value="right">Right</option>
+                            <option value="left">Left</option>
+                        </select>
+                    </div>
+                    
                 </div>
                 <div class="grid">
                     <header class="grid-header">
@@ -194,6 +198,7 @@
                     </header>
                     <div class="grid-info">
                         <div class="axis-name">
+                            <label for="select-axis-name">Grid axis:</label>
                             <select id="select-axis-name">
                                 <option value="none">None</option>
                                 <option value="both">Both</option>
@@ -203,9 +208,10 @@
                         </div>
                         <div class="grid-color">
                             <label for="grid-color-input">Grid color:</label>
-                            <input type="color" id="grid-color-input" value="#000000">
+                            <input type="color" id="grid-color-input" value="#01214a">
                         </div>
                         <div class="grid-line-style">
+                            <label for="select-grid-line-style">Line style:</label>
                             <select id="select-grid-line-style">
                                 <option value="-" selected>Solid</option>
                                 <option value=":">Dotted</option>
@@ -219,62 +225,75 @@
                         </div>
                     </div>
                 </div>
-                <div class="isLegend">
+                <div class="isLegend is-container">
                     <input type="checkbox" id="islegend">
-                    <label for="islegend">You want Legend?</label>
+                    <label for="islegend">Do you want Legend?</label>
+                    <div class="checkbox"></div>
                 </div>
                 <div class="legend">
                     <header class="legend-header">
                         <h1>Legend</h1>
                     </header>
-                    <div class="legend-title">
-                        <label for="legendTitle">Title:</label>
-                        <input type="text" id="legendTitle">
-                    </div>
-                    <div class="legend-loc">
-                        <select id="select-legend-loc">
-                            <option value="best" selected>Best</option>
-                            <option value="upper left">Upper left</option>
-                            <option value="upper right">Upper right</option>
-                            <option value="lower left">Lower left</option>
-                            <option value="lower right">Lower right</option>
-                        </select>
+                    <div class="sub-legend-container">
+                        <div class="legend-title">
+                            <label for="legendTitle">Title:</label>
+                            <input type="text" id="legendTitle">
+                        </div>
+                        <div class="legend-loc">
+                            <label for="select-legend-loc">Legend location:</label>
+                            <select id="select-legend-loc">
+                                <option value="best" selected>Best</option>
+                                <option value="upper left">Upper left</option>
+                                <option value="upper right">Upper right</option>
+                                <option value="lower left">Lower left</option>
+                                <option value="lower right">Lower right</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="isCubic">  <!--want smooth curve-->
+            <div class="isCubic is-container">  <!--want smooth curve-->
                 <input type="checkbox" id="isCubic">
-                <label for="isCubic">You want smooth curve?</label>
+                <label for="isCubic">Do you want smooth curve?</label>
+                <div class="checkbox"></div>
             </div>
             <!--if there are subplots then isSup-title will show. if it is checked , sup-title will display-->
-            <div class="isSup-title">
+            <div class="isSup-title is-container">
                 <input type="checkbox" id="isSupTitle">
-                <label for="isSupTitle">You want Super title?</label>
+                <label for="isSupTitle">Do you want Super title?</label>
+                <div class="checkbox"></div>
             </div>
             <div class="sup-title-container">
                 <header class="sup-title-header">
                     <h1>Super title</h1>
                 </header>
-                <div class="sup-title">
-                    <label for="supTitle">Super Title</label>
-                    <input type="text" id="supTitle">
-                </div>
-                <div class="fontdict-suptitle">
-                    <div class="font-family-suptitle">
-                        <label for="fontFamilySupTitle">Font:</label>
-                        <input type="text" id="fontFamilySupTitle">
+                <div class="sub-sup-title-container">
+                    <div class="sup-title">
+                        <label for="supTitle">Super Title:</label>
+                        <input type="text" id="supTitle">
                     </div>
                     <div class="suptitle-color">
                         <label for="suptitle-color-input">Title color:</label>
-                        <input type="color" id="suptitle-color-input" value="#000000">
+                        <input type="color" id="suptitle-color-input" value="#01214a">
                     </div>
+                </div>
+                <div class="sub-sup-title-container">
+                    <div class="font-family-suptitle">
+                        <label for="fontFamilySupTitle">Font:</label>
+                        <input type="text" id="fontFamilySupTitle" value="serif">
+                    </div>
+                    
                     <div class="suptitle-font-size">
                         <label for="supTitleFontSize">Font size:</label>
                         <input type="number" id="supTitleFontSize" min="5" max="40" value="20">
                     </div>
                 </div>
             </div>
-            <div class="show-btn">Show</div>  <!--plt.show()-->
+            <div class="show-btn">
+                <div class="sub-show-btn">
+                    Show
+                </div>
+            </div>  <!--plt.show()-->
         </form>
     </main>
   </body>
