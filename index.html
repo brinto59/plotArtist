@@ -25,7 +25,7 @@
         <form action="#" method="post" class="form-container">
             <div class="plot-num">
                 <label for="plotNum">Number of Plots:</label>
-                <input type="number" id="plotNum" min="1" max="50">
+                <input type="number" id="plotNum" min="1" max="12" value="1">
             </div>
             <div class="plot-info" data-plot-no="1">
                 <header class="plot-info-header">
@@ -33,7 +33,7 @@
                 </header>
                 <div class="curve-num">
                     <label for="curveNum">Curve Number:</label>
-                    <input type="number" id="curveNum" min="1" max="50">
+                    <input type="number" id="curveNum-plot1" min="1" max="12" value="1">
                 </div>
                 <div class="curve-info" data-curve-no="1">
                     <header class="curve-info-header">
@@ -289,8 +289,8 @@
                     </div>
                 </div>
             </div>
-            <div class="show-btn">
-                <div class="sub-show-btn">
+            <div class="show-btn-container">
+                <div class="show-btn">
                     Show
                 </div>
             </div>  <!--plt.show()-->
