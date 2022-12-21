@@ -22,7 +22,7 @@
             <div class="plot-display"></div>
             <div class="download-btn"></div>
         </div>
-        <form action="#" method="post" class="form-container">
+        <form action="#" method="POST" class="form-container">
             <div class="plot-num">
                 <label for="plotNum">Number of Plots:</label>
                 <input type="number" id="plotNum" min="1" max="12" value="1">
@@ -41,11 +41,11 @@
                     </header>
                     <div class="x-axis">
                         <label for="xAxis1">X-axis:</label>
-                        <input type="text" id="xAxis1">
+                        <input type="text" id="xAxis1" required>
                     </div>
                     <div class="y-axis">
                         <label for="yAxis1">Y-axis:</label>
-                        <input type="text" id="yAxis1">
+                        <input type="text" id="yAxis1" required>
                     </div>
                     <div class="sub-curve-info-container">
                         <div class="line-style">
@@ -70,6 +70,7 @@
                             <input type="text" id="labelLegend">
                         </div>
                     </div>
+                    <div class="error-message"></div>
 
                 </div>
                 <div class="axis-range">
@@ -79,22 +80,22 @@
                             <h3>For X-axis</h2>
                             <div class="x-axis-range-start">
                                 <label for="xAxisRangeStart">Start:</label>
-                                <input type="text" id="xAxisRangeStart">
+                                <input type="number" id="xAxisRangeStart">
                             </div>
                             <div class="x-axis-range-end">
                                 <label for="xAxisRangeEnd">End:</label>
-                                <input type="text" id="xAxisRangeEnd">
+                                <input type="number" id="xAxisRangeEnd">
                             </div>
                         </div>
                         <div class="y-axis-range">
                             <h3>For Y-axis</h2>
                             <div class="y-axis-range-start">
                                 <label for="yAxisRangeStart">Start:</label>
-                                <input type="text" id="yAxisRangeStart">
+                                <input type="number" id="yAxisRangeStart">
                             </div>
                             <div class="y-axis-range-end">
                                 <label for="yAxisRangeEnd">End:</label>
-                                <input type="text" id="yAxisRangeEnd">
+                                <input type="number" id="yAxisRangeEnd">
                             </div>
                         </div>
                     </div>
