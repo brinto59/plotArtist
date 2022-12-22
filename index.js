@@ -4,7 +4,7 @@ const plotNum = document.getElementById("plotNum");
 let islegends, legends, plotInfos, curveNums;
 let clonePlotElement = document.querySelector(".plot-info").cloneNode(true);
 let cloneCurveElement = document.querySelector(".curve-info").cloneNode(true);
-
+let smoothCurve = false;
 const button = document.querySelector(".show-btn");
 function variableCall() {
   islegends = document.querySelectorAll(".isLegend input");
@@ -101,11 +101,25 @@ document.addEventListener("input", (e)=>{
 });
 
 button.addEventListener("click", (e)=>{
+    smoothCurve = document.querySelector("#isCubic").checked;
+    let superTitleData;
+    if(document.querySelector("#isSupTitle").checked){
+      superTitleData = extractSuperTitleData(document.querySelector(".sup-title-container"));
+    }
     for(let i=0;i<eval(plotNum.value);i++){
       let curveInfos = plotInfos[i].querySelectorAll(".curve-info");
       let errorContainers = plotInfos[i].querySelectorAll(".error-message");
       let curveData = extractCurveData(curveInfos, errorContainers);
       let axisRangeData = extractAxisData(plotInfos[i].querySelector(".sub-axis-range-container"));
+      let xLabelData = extractLabelData(plotInfos[i].querySelector(".x-label-container"), 'x'); 
+      let yLabelData = extractLabelData(plotInfos[i].querySelector(".y-label-container"), 'y'); 
+      let titleData = extractTitleData(plotInfos[i].querySelector(".title"));
+      let gridData = extractGridData(plotInfos[i].querySelector(".grid"));
+      let legendData = {};
+      if(plotInfos[i].querySelector("#islegend").checked == true){
+        legendData.title = plotInfos[i].querySelector("#legendTitle").value;
+        legendData.location = plotInfos[i].querySelector("#select-legend-loc").value;
+      }
     }
 });
 
@@ -146,6 +160,44 @@ function extractAxisData(subAxisRangeContainer){
   let data = {};
   data.x = {start:subAxisRangeContainer.querySelector("#xAxisRangeStart").value, end:subAxisRangeContainer.querySelector("#xAxisRangeEnd").value};
   data.y = {start:subAxisRangeContainer.querySelector("#yAxisRangeStart").value, end:subAxisRangeContainer.querySelector("#yAxisRangeEnd").value};
-  console.log(data);
+  // console.log(data);
   return data;
+}
+
+function extractLabelData(labelContainer, axis){
+  let labelData = {};
+  labelData.label = labelContainer.querySelector(`#${axis}Label`).value;
+  labelData.color = labelContainer.querySelector(`#${axis}-label-color-input`).value;
+  labelData.font = labelContainer.querySelector(`#fontFamily-${axis}`).value;
+  labelData.fontSize = labelContainer.querySelector(`#${axis}LabelFontSize`).value;
+  // console.log(labelData);
+  return labelData;
+}
+
+function extractTitleData(titleContainer){
+  let titleData = {};
+  titleData.title = titleContainer.querySelector("#title-input").value;
+  titleData.color = titleContainer.querySelector("#title-color-input").value;
+  titleData.font = titleContainer.querySelector("#fontFamilyTitle").value;
+  titleData.fontSize = titleContainer.querySelector("#titleFontSize").value;
+  titleData.location = titleContainer.querySelector("#select-title-loc").value;
+  return titleData;
+}
+
+function extractGridData(gridContainer){
+  let gridData = {};
+  gridData.axis = gridContainer.querySelector("#select-axis-name").value;
+  gridData.color = gridContainer.querySelector("#grid-color-input").value;
+  gridData.lineStyle = gridContainer.querySelector("#select-grid-line-style").value;
+  gridData.lineWidth = gridContainer.querySelector("#grid-line-width").value;
+  return gridData;
+}
+
+function extractSuperTitleData(superTitleContainer){
+  let superTitleData = {};
+  titleData.title = superTitleContainer.querySelector("#supTitle").value;
+  titleData.color = superTitleContainer.querySelector("#suptitle-color-input").value;
+  titleData.font = superTitleContainer.querySelector("#fontFamilySupTitle").value;
+  titleData.fontSize = superTitleContainer.querySelector("#supTitleFontSize").value;
+  return superTitleData;
 }
