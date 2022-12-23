@@ -7,10 +7,8 @@
     <title>plotArtist</title>
     <link rel="stylesheet" href="./style.css">
     <script defer src="./index.js"></script>
-    <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
-    <style>
-    </style>
+    <!-- <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script> -->
+    <script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
   </head>
   <body>
     <main class="main-container">
@@ -19,7 +17,9 @@
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque ut minus nobis?</p>
         </header>
         <div class="display-container">
-            <div class="plot-display"></div>
+            <div class="plot-display">
+                <div id="myPlot"></div>
+            </div>
             <div class="download-btn"></div>
         </div>
         <form action="#" method="POST" class="form-container">
@@ -51,10 +51,9 @@
                         <div class="line-style">
                             <label for="select-line-style">Line style:</label>
                             <select name="select-linestyle" id="select-line-style">
-                                <option value="-" selected>Solid</option>
-                                <option value=":">Dotted</option>
-                                <option value="--">Dashed</option>
-                                <option value="-.">Dashdot</option>
+                                <option value="solid" selected>Solid</option>
+                                <option value="dot">Dotted</option>
+                                <option value="dashdot">Dashdot</option>
                             </select>
                         </div>
                         <div class="line-color">
@@ -186,9 +185,9 @@
                     <div class="loc">
                         <label for="select-title-loc">Location:</label>
                         <select id="select-title-loc">
-                            <option value="center" selected>Center</option>
-                            <option value="right">Right</option>
-                            <option value="left">Left</option>
+                            <option value="0.5" selected>Center</option>
+                            <option value="0.98">Right</option>
+                            <option value="0.01">Left</option>
                         </select>
                     </div>
                     

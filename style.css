@@ -44,6 +44,10 @@ body{
     height: 300px;
     background-color: white;
 }
+#myPlot{
+    width: 800px;
+    height: 280px;
+}
 .form-container{
     width: 800px;
     /* border: 1px black solid; */
