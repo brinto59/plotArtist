@@ -8,7 +8,7 @@ let smoothCurve = false;
 const button = document.querySelector(".show-btn");
 function variableCall() {
   islegends = document.querySelectorAll(".isLegend input");
-  legends = document.querySelectorAll(".legend");
+  legends = document.querySelectorAll(".legend-container");
   plotInfos = document.querySelectorAll(".plot-info");
   curveNums = document.querySelectorAll(".curve-num input");
   console.log(curveNums);
@@ -133,6 +133,7 @@ button.addEventListener("click", (e) => {
       legendData.title = plotInfos[i].querySelector("#legendTitle").value;
       legendData.location =
         plotInfos[i].querySelector("#select-legend-loc").value;
+      console.log(legendData);
     }
     drawPlot(
       curveInfoLength,
@@ -236,7 +237,9 @@ function extractTitleData(titleContainer) {
   titleData.fontSize = eval(
     titleContainer.querySelector("#titleFontSize").value
   );
-  titleData.location = eval(titleContainer.querySelector("#select-title-loc").value);
+  titleData.location = eval(
+    titleContainer.querySelector("#select-title-loc").value
+  );
   console.log(titleData.location);
   return titleData;
 }
@@ -282,12 +285,13 @@ function drawPlot(
   let data = [];
   let legend = {};
   let showLegend = Object.keys(legendData).length == 0 ? false : true;
+  console.log("SHOWLEGEND", showLegend);
   for (let i = 0; i < curveInfoLength; i++) {
     let trace = {};
     trace.x = curveData.x[i];
     trace.y = curveData.y[i];
     if (showLegend) {
-      trace.name = curveData.labelForLegend;
+      trace.name = curveData.labelForLegend[i];
     }
     trace.line = {
       color: curveData.lineColor[i],
@@ -304,62 +308,93 @@ function drawPlot(
         size: titleData.fontSize,
         color: titleData.color,
       },
+      xref: "paper",
+      x:titleData.location
     },
-    xref: "paper",
-    x:titleData.location,
     xaxis: {
-      title: xLabelData.label,
-      range: [axisRangeData.x.start, axisRangeData.x.end],
-      font: {
-        family: xLabelData.font,
-        size: xLabelData.fontSize,
-        color: xLabelData.color,
+      title: {
+        text: xLabelData.label,
+        font: {
+          family: xLabelData.font,
+          size: xLabelData.fontSize,
+          color: xLabelData.color,
+        }
       },
+      range: [axisRangeData.x.start, axisRangeData.x.end]
     },
     yaxis: {
-      title: yLabelData.label,
-      range: [axisRangeData.y.start, axisRangeData.y.end],
-      font: {
-        family: yLabelData.font,
-        size: yLabelData.fontSize,
-        color: yLabelData.color,
+      title: {
+        text:yLabelData.label,
+        font: {
+          family: yLabelData.font,
+          size: yLabelData.fontSize,
+          color: yLabelData.color,
+        }
       },
+      range: [axisRangeData.y.start, axisRangeData.y.end],
     },
     showlegend: showLegend,
     legend: {
       title: {},
-    },
+    }
   };
-  console.log(titleData.location, layout.x);
-  console.log(layout);
   if (showLegend) {
     layout.legend.title.text = legendData.title;
-    if (legendData.location == "best") {
-      layout.legend.title.xref = "container";
-      layout.legend.title.x = "auto";
-      layout.legend.title.yref = "container";
-      layout.legend.title.y = "auto";
-    } else if (legendData.location == "upper left") {
-      layout.legend.title.xref = "paper";
-      layout.legend.title.x = 0.01;
-      layout.legend.title.yref = "paper";
-      layout.legend.title.y = 0.98;
-    } else if (legendData.location == "upper right") {
-      layout.legend.title.xref = "paper";
-      layout.legend.title.x = 0.98;
-      layout.legend.title.yref = "paper";
-      layout.legend.title.y = 0.98;
-    } else if (legendData.location == "lower left") {
-      layout.legend.title.xref = "paper";
-      layout.legend.title.x = 0.01;
-      layout.legend.title.yref = "paper";
-      layout.legend.title.y = 0.01;
-    } else if (legendData.location == "lower right") {
-      layout.legend.title.xref = "paper";
-      layout.legend.title.x = 0.98;
-      layout.legend.title.yref = "paper";
-      layout.legend.title.y = 0.01;
-    }
+  if (legendData.location == "best") {
+    layout.legend.x = 1.02;
+    layout.legend.xanchor = "left";
+    layout.legend.y = 1.1;
+    layout.legend.yanchor = "top";
+  } else if (legendData.location == "upper left") {
+    layout.legend.x = 1.1;
+    layout.legend.xanchor = "left";
+    layout.legend.y = 1.1;
+    layout.legend.yanchor = "top";
+  } else if (legendData.location == "upper right") {
+    layout.legend.x = -0.03;
+    layout.legend.xanchor = "right";
+    layout.legend.y = 1.1;
+    layout.legend.yanchor = "top";
+  } else if (legendData.location == "lower left") {
+    layout.legend.x = -0.03;
+    layout.legend.xanchor = "left";
+    layout.legend.y = 0;
+    layout.legend.yanchor = "bottom";
+  } else if (legendData.location == "lower right") {
+    layout.legend.x = 1.1;
+    layout.legend.xanchor = "right";
+    layout.legend.y = 0;
+    layout.legend.yanchor = "bottom";
   }
+  }
+  if(gridData.axis=="none"){
+    layout.xaxis.showgrid = false;
+    layout.yaxis.showgrid = false;
+  }
+  else if(gridData.axis == "both"){
+    layout.xaxis.showgrid = true;
+    layout.yaxis.showgrid = true;
+    layout.xaxis.gridcolor = gridData.color;
+    layout.xaxis.griddash=gridData.lineStyle;
+    layout.xaxis.gridwidth=gridData.lineWidth;
+    layout.yaxis.gridcolor = gridData.color;
+    layout.yaxis.griddash=gridData.lineStyle;
+    layout.yaxis.gridwidth=gridData.lineWidth;
+  }
+  else if(gridData.axis == "x"){
+    layout.xaxis.showgrid = true;
+    layout.yaxis.showgrid = false;
+    layout.xaxis.gridcolor = gridData.color;
+    layout.xaxis.griddash=gridData.lineStyle;
+    layout.xaxis.gridwidth=gridData.lineWidth;
+  }
+  else if(gridData.axis == "y"){
+    layout.xaxis.showgrid = false;
+    layout.yaxis.showgrid = true;
+    layout.yaxis.gridcolor = gridData.color;
+    layout.yaxis.griddash=gridData.lineStyle;
+    layout.yaxis.gridwidth=gridData.lineWidth;
+  }
+  console.log(layout);
   Plotly.newPlot("myPlot", data, layout);
 }

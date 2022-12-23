@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>plotArtist</title>
     <link rel="stylesheet" href="./style.css">
-    <script defer src="./index.js"></script>
-    <!-- <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script> -->
     <script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
+    <script defer src="./index.js"></script>
   </head>
   <body>
     <main class="main-container">
@@ -53,6 +52,7 @@
                             <select name="select-linestyle" id="select-line-style">
                                 <option value="solid" selected>Solid</option>
                                 <option value="dot">Dotted</option>
+                                <option value="dash">Dashed</option>
                                 <option value="dashdot">Dashdot</option>
                             </select>
                         </div>
@@ -213,10 +213,10 @@
                         <div class="grid-line-style">
                             <label for="select-grid-line-style">Line style:</label>
                             <select id="select-grid-line-style">
-                                <option value="-" selected>Solid</option>
-                                <option value=":">Dotted</option>
-                                <option value="--">Dashed</option>
-                                <option value="-.">Dashdot</option>
+                                <option value="solid" selected>Solid</option>
+                                <option value="dot">Dotted</option>
+                                <option value="dash">Dashed</option>
+                                <option value="dashdot">Dashdot</option>
                             </select>
                         </div>
                         <div class="grid-line-width">
@@ -230,7 +230,7 @@
                     <label for="islegend">Do you want Legend?</label>
                     <div class="checkbox"></div>
                 </div>
-                <div class="legend">
+                <div class="legend-container">
                     <header class="legend-header">
                         <h1>Legend</h1>
                     </header>
