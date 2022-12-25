@@ -35,7 +35,6 @@ document.addEventListener("change", (e) => {
     let value = eval(plotNum.value);
     // console.log(typeof(eval(value)));
     let length = plotInfos.length;
-
     if (value > length) {
       for (let i = 1; i <= value - length; i++) {
         clonePlotElement.querySelector(
@@ -45,6 +44,9 @@ document.addEventListener("change", (e) => {
           length + 1
         }`;
         clonePlotElement.dataset.plotNo = `${length + i}`;
+        clonePlotElement.querySelectorAll(".mode-sub-container input").forEach((element)=>{
+          element.name = `mode-curve1-plot${length+1}`;
+        });
         plotInfos[length - 1].insertAdjacentElement(
           "afterend",
           clonePlotElement
@@ -68,7 +70,8 @@ document.addEventListener("change", (e) => {
       // console.log(typeof(eval(value)));
       let curveInfos =
         element.parentElement.parentElement.querySelectorAll(".curve-info");
-      console.log(curveInfos);
+      let plotNo = eval(element.parentElement.parentElement.dataset.plotNo);
+      console.log(plotNo);
       let length = curveInfos.length;
       if (value > length) {
         for (let i = 1; i <= value - length; i++) {
@@ -76,6 +79,9 @@ document.addEventListener("change", (e) => {
             ".curve-info-header"
           ).innerHTML = `<h2>Curve information of no. ${length + i}</h2>`;
           cloneCurveElement.dataset.curveNo = `${length + i}`;
+          cloneCurveElement.querySelectorAll(".mode-sub-container input").forEach((element)=>{
+            element.name = `mode-curve${length+1}-plot${plotNo}`;
+          });
           curveInfos[length - 1].insertAdjacentElement(
             "afterend",
             cloneCurveElement
@@ -156,6 +162,7 @@ function extractCurveData(curveInfos, errorContainers) {
   let linewidth = [];
   let labelForLegend = [];
   let combinedXY = [];
+  let mode = [];
   let regex = /[0-9]+[.]?[0-9]*/g;
   for (let j = 0; j < curveInfos.length; j++) {
     xData.push(
@@ -180,6 +187,15 @@ function extractCurveData(curveInfos, errorContainers) {
       eval(curveInfos[j].querySelector("#line-width-input").value)
     );
     labelForLegend.push(curveInfos[j].querySelector("#labelLegend").value);
+    if(curveInfos[j].querySelector(".mode-sub-container #marker").checked){
+      mode.push(curveInfos[j].querySelector(".mode-sub-container #marker").value);
+    }
+    else if(curveInfos[j].querySelector(".mode-sub-container #lineWithMarker").checked){
+      mode.push(curveInfos[j].querySelector(".mode-sub-container #lineWithMarker").value);
+    }
+    else if(curveInfos[j].querySelector(".mode-sub-container #line").checked){
+      mode.push(curveInfos[j].querySelector(".mode-sub-container #line").value);
+    }
     combinedXY.push(getCombinedXY(xData[j], yData[j]));
   }
   // return combinedXY;
@@ -190,6 +206,7 @@ function extractCurveData(curveInfos, errorContainers) {
     lineColor: lineColor,
     linewidth: linewidth,
     labelForLegend: labelForLegend,
+    mode:mode
   };
 }
 
@@ -298,6 +315,12 @@ function drawPlot(
       dash: curveData.lineStyle[i],
       width: curveData.linewidth[i],
     };
+    trace.mode = curveData.mode[i];
+    if(smoothCurve){
+      trace.line.shape = 'spline';
+    }else{
+      trace.line.shape = 'linear';
+    }
     data.push(trace);
   }
   let layout = {
@@ -309,7 +332,7 @@ function drawPlot(
         color: titleData.color,
       },
       xref: "paper",
-      x:titleData.location
+      x: titleData.location,
     },
     xaxis: {
       title: {
@@ -318,83 +341,94 @@ function drawPlot(
           family: xLabelData.font,
           size: xLabelData.fontSize,
           color: xLabelData.color,
-        }
+        },
       },
-      range: [axisRangeData.x.start, axisRangeData.x.end]
+      zeroline: true,
+      zerolinecolor: "#01214A",
+      zerolinewidth: 3,
+      // range: [axisRangeData.x.start, axisRangeData.x.end]
     },
     yaxis: {
       title: {
-        text:yLabelData.label,
+        text: yLabelData.label,
         font: {
           family: yLabelData.font,
           size: yLabelData.fontSize,
           color: yLabelData.color,
-        }
+        },
       },
-      range: [axisRangeData.y.start, axisRangeData.y.end],
+      zeroline: true,
+      zerolinecolor: "#01214A",
+      zerolinewidth: 3,
+      // range: [axisRangeData.y.start, axisRangeData.y.end],
     },
     showlegend: showLegend,
     legend: {
       title: {},
-    }
+    },
   };
+  if (axisRangeData.x.end != null && axisRangeData.y.end != null) {
+    layout.xaxis.range = [axisRangeData.x.start, axisRangeData.x.end];
+    layout.yaxis.range = [axisRangeData.y.start, axisRangeData.y.end];
+  }
   if (showLegend) {
     layout.legend.title.text = legendData.title;
-  if (legendData.location == "best") {
-    layout.legend.x = 1.02;
-    layout.legend.xanchor = "left";
-    layout.legend.y = 1.1;
-    layout.legend.yanchor = "top";
-  } else if (legendData.location == "upper left") {
-    layout.legend.x = 1.1;
-    layout.legend.xanchor = "left";
-    layout.legend.y = 1.1;
-    layout.legend.yanchor = "top";
-  } else if (legendData.location == "upper right") {
-    layout.legend.x = -0.03;
-    layout.legend.xanchor = "right";
-    layout.legend.y = 1.1;
-    layout.legend.yanchor = "top";
-  } else if (legendData.location == "lower left") {
-    layout.legend.x = -0.03;
-    layout.legend.xanchor = "left";
-    layout.legend.y = 0;
-    layout.legend.yanchor = "bottom";
-  } else if (legendData.location == "lower right") {
-    layout.legend.x = 1.1;
-    layout.legend.xanchor = "right";
-    layout.legend.y = 0;
-    layout.legend.yanchor = "bottom";
+    if (legendData.location == "best") {
+      layout.legend.x = 1.02;
+      layout.legend.xanchor = "left";
+      layout.legend.y = 1.1;
+      layout.legend.yanchor = "top";
+    } else if (legendData.location == "upper left") {
+      layout.legend.x = 1.1;
+      layout.legend.xanchor = "left";
+      layout.legend.y = 1.1;
+      layout.legend.yanchor = "top";
+    } else if (legendData.location == "upper right") {
+      layout.legend.x = -0.03;
+      layout.legend.xanchor = "right";
+      layout.legend.y = 1.1;
+      layout.legend.yanchor = "top";
+    } else if (legendData.location == "lower left") {
+      layout.legend.x = -0.03;
+      layout.legend.xanchor = "left";
+      layout.legend.y = 0;
+      layout.legend.yanchor = "bottom";
+    } else if (legendData.location == "lower right") {
+      layout.legend.x = 1.1;
+      layout.legend.xanchor = "right";
+      layout.legend.y = 0;
+      layout.legend.yanchor = "bottom";
+    }
   }
-  }
-  if(gridData.axis=="none"){
+  if (gridData.axis == "none") {
     layout.xaxis.showgrid = false;
     layout.yaxis.showgrid = false;
-  }
-  else if(gridData.axis == "both"){
-    layout.xaxis.showgrid = true;
-    layout.yaxis.showgrid = true;
+    layout.xaxis.zerolinecolor = gridData.color;
+    layout.yaxis.zerolinecolor = gridData.color;
+  } else {
     layout.xaxis.gridcolor = gridData.color;
-    layout.xaxis.griddash=gridData.lineStyle;
-    layout.xaxis.gridwidth=gridData.lineWidth;
+    layout.xaxis.griddash = gridData.lineStyle;
+    layout.xaxis.gridwidth = gridData.lineWidth;
     layout.yaxis.gridcolor = gridData.color;
-    layout.yaxis.griddash=gridData.lineStyle;
-    layout.yaxis.gridwidth=gridData.lineWidth;
-  }
-  else if(gridData.axis == "x"){
-    layout.xaxis.showgrid = true;
-    layout.yaxis.showgrid = false;
-    layout.xaxis.gridcolor = gridData.color;
-    layout.xaxis.griddash=gridData.lineStyle;
-    layout.xaxis.gridwidth=gridData.lineWidth;
-  }
-  else if(gridData.axis == "y"){
-    layout.xaxis.showgrid = false;
-    layout.yaxis.showgrid = true;
-    layout.yaxis.gridcolor = gridData.color;
-    layout.yaxis.griddash=gridData.lineStyle;
-    layout.yaxis.gridwidth=gridData.lineWidth;
+    layout.yaxis.griddash = gridData.lineStyle;
+    layout.yaxis.gridwidth = gridData.lineWidth;
+    if (gridData.axis == "both") {
+      layout.xaxis.showgrid = true;
+      layout.yaxis.showgrid = true;
+    } else if (gridData.axis == "x") {
+      layout.xaxis.showgrid = true;
+      layout.yaxis.showgrid = false;
+    } else if (gridData.axis == "y") {
+      layout.xaxis.showgrid = false;
+      layout.yaxis.showgrid = true;
+    }
   }
   console.log(layout);
   Plotly.newPlot("myPlot", data, layout);
 }
+
+// x ar y axis er color er jonno alada section banano lagbe
+// subplot banano jay kine dekhte hobe
+// display container ta ke display valo vabe bulid korte hobe
+// download button tik korte hobe tar sathe er code
+// marker er jonno alada section
