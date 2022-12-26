@@ -38,16 +38,18 @@ body{
     font-size: 25px;
     font-weight: 700;
 }
-.display-container{
+.plot-display{
     border: 1px red solid;
     width: 800px;
-    height: 300px;
+    height: 500px;
     background-color: white;
 }
 #myPlot{
+    border: 1px black solid;
     width: 800px;
     height: 280px;
 }
+
 .form-container{
     width: 800px;
     /* border: 1px black solid; */
@@ -368,11 +370,11 @@ body{
 .sup-title input{
     width: 200px;
 }
-.show-btn-container{
+.btn-container{
     position: relative;
     height: 60px;
 }
-.show-btn{
+.btn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -390,7 +392,7 @@ body{
     transition: 1s all;
     cursor: pointer;
 }
-.show-btn::after{
+.btn::after{
     content: "";
     position: absolute;
     top: 0px;
@@ -400,7 +402,7 @@ body{
     transition: 1s all;
     background-color: #ffffff52;
 }
-.show-btn::before{
+.btn::before{
     content: "";
     position: absolute;
     top: 0px;
@@ -412,16 +414,20 @@ body{
     background-color: transparent;
     opacity: 0;
 }
-.show-btn:hover{
+.btn:hover{
     box-shadow: 0px 0px 23px 6px #74f39d;
     /* border: 1px rgb(255, 255, 255) solid; */
     /* z-index: 3; */
 }
-.show-btn:hover::after{
+.btn:hover::after{
     opacity: 0;
     transform: scale(0.2, 1);
 }
-.show-btn:hover::before{
+.btn:hover::before{
     opacity: 1;
     transform: scale(2, 1);
+}
+.download-btn{
+    top: 5px;
+    left: -30px;
 }

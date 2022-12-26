@@ -427,8 +427,8 @@ function drawPlot(
   Plotly.newPlot("myPlot", data, layout);
 }
 
-// x ar y axis er color er jonno alada section banano lagbe
+// x ar y axis er color er jonno alada section banano lagbe x
 // subplot banano jay kine dekhte hobe
 // display container ta ke display valo vabe bulid korte hobe
 // download button tik korte hobe tar sathe er code
-// marker er jonno alada section
+// marker er jonno alada section  x
