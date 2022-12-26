@@ -412,6 +412,8 @@ function drawPlot(
     layout.yaxis.gridcolor = gridData.color;
     layout.yaxis.griddash = gridData.lineStyle;
     layout.yaxis.gridwidth = gridData.lineWidth;
+    layout.xaxis.zerolinecolor = gridData.color;
+    layout.yaxis.zerolinecolor = gridData.color;
     if (gridData.axis == "both") {
       layout.xaxis.showgrid = true;
       layout.yaxis.showgrid = true;
@@ -428,7 +430,7 @@ function drawPlot(
 }
 
 // x ar y axis er color er jonno alada section banano lagbe x
-// subplot banano jay kine dekhte hobe
+// subplot banano jay kine dekhte hobe  x
 // display container ta ke display valo vabe bulid korte hobe
 // download button tik korte hobe tar sathe er code
 // marker er jonno alada section  x
