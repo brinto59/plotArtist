@@ -17,7 +17,10 @@
         </header>
         <div class="display-container">
             <div class="plot-display">
-                <div id="myPlot"></div>
+                <!-- <div id="myPlot1" class="plots"></div>
+                <div id="myPlot2" class="plots"></div>
+                <div id="myPlot3" class="plots"></div>
+                <div id="myPlot4" class="plots"></div> -->
             </div>
             <div class="btn-container">
                 <div class="btn download-btn">Download</div>
@@ -262,6 +265,27 @@
                             </select>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="column-row-container">
+                <p>How the plots should display?</p>
+                <div class="row-container">
+                    <label for="row-input">Row:</label>
+                    <input type="number" id="row-input" min="1" value="1">
+                </div>
+                <div class="column-container">
+                    <label for="column-input">Column:</label>
+                    <input type="number" id="column-input" min="1" value="1">
+                </div>
+            </div>
+            <div class="width-height-container">
+                <div class="width-container">
+                    <label for="width-input">Plot Width(in px):</label>
+                    <input type="number" id="width-input" min="150" value="350" max="600">
+                </div>
+                <div class="height-container">
+                    <label for="height-input">Plot Height(in px):</label>
+                    <input type="number" id="height-input" min="150" value="300" max="600">
                 </div>
             </div>
             <div class="isCubic is-container">  <!--want smooth curve-->

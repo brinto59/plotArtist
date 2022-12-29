@@ -1,6 +1,13 @@
 const isSupTitle = document.getElementById("isSupTitle");
 const supTitleContainer = document.querySelector(".sup-title-container");
+const columnRowContainer = document.querySelector(".column-row-container");
+const widthHeightContainer = document.querySelector(".width-height-container");
+const widthInput = document.getElementById("width-input");
+const heightInput = document.getElementById("height-input");
+const plots = document.querySelectorAll(".plots");
 const plotNum = document.getElementById("plotNum");
+const plotDisplay = document.querySelector(".plot-display");
+
 let islegends, legends, plotInfos, curveNums;
 let clonePlotElement = document.querySelector(".plot-info").cloneNode(true);
 let cloneCurveElement = document.querySelector(".curve-info").cloneNode(true);
@@ -33,6 +40,12 @@ document.addEventListener("click", (e) => {
 document.addEventListener("change", (e) => {
   if (e.target == plotNum) {
     let value = eval(plotNum.value);
+    if(value >= 2){
+      columnRowContainer.style.display = "flex";
+    }
+    else{
+      columnRowContainer.style.display = "none";
+    }
     // console.log(typeof(eval(value)));
     let length = plotInfos.length;
     if (value > length) {
@@ -99,6 +112,17 @@ document.addEventListener("change", (e) => {
       }
     }
   });
+  if(e.target == widthInput){
+    plots.forEach(element=>{
+      console.log("btrin", widthInput.value);
+      element.style.width=`${eval(widthInput.value)}px`
+    });
+  }
+  if(e.target == heightInput){
+    plots.forEach(element=>{
+      element.style.height=`${eval(heightInput.value)}px`
+    });
+  }
 });
 
 document.addEventListener("input", (e) => {
@@ -141,7 +165,14 @@ button.addEventListener("click", (e) => {
         plotInfos[i].querySelector("#select-legend-loc").value;
       console.log(legendData);
     }
+    if(plotDisplay.querySelector(`#myPlot${i+1}`) == null){
+      let div = document.createElement("div");
+      div.setAttribute('id', `myPlot${i+1}`);
+      div.setAttribute('class', `plots`);
+      plotDisplay.appendChild(div);
+    }
     drawPlot(
+      i+1,
       curveInfoLength,
       curveData,
       axisRangeData,
@@ -290,6 +321,7 @@ function extractSuperTitleData(superTitleContainer) {
 }
 
 function drawPlot(
+  plotNo,
   curveInfoLength,
   curveData,
   axisRangeData,
@@ -426,7 +458,7 @@ function drawPlot(
     }
   }
   console.log(layout);
-  Plotly.newPlot("myPlot", data, layout);
+  Plotly.newPlot(`myPlot${plotNo}`, data, layout);
 }
 
 // x ar y axis er color er jonno alada section banano lagbe x
