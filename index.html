@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>plotArtist</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
     <script defer src="./index.js"></script>
   </head>
@@ -16,11 +17,9 @@
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque ut minus nobis?</p>
         </header>
         <div class="display-container">
-            <div class="plot-display">
-                <!-- <div id="myPlot1" class="plots"></div>
-                <div id="myPlot2" class="plots"></div>
-                <div id="myPlot3" class="plots"></div>
-                <div id="myPlot4" class="plots"></div> -->
+            <div class="sub-display-container">
+                <div class="plot-display">
+                </div>
             </div>
             <div class="btn-container">
                 <div class="btn download-btn">Download</div>
@@ -275,7 +274,7 @@
                 </div>
                 <div class="column-container">
                     <label for="column-input">Column:</label>
-                    <input type="number" id="column-input" min="1" value="1">
+                    <input type="number" id="column-input" min="1" value="2">
                 </div>
             </div>
             <div class="width-height-container">

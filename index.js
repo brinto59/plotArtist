@@ -1,23 +1,30 @@
+
 const isSupTitle = document.getElementById("isSupTitle");
 const supTitleContainer = document.querySelector(".sup-title-container");
 const columnRowContainer = document.querySelector(".column-row-container");
 const widthHeightContainer = document.querySelector(".width-height-container");
 const widthInput = document.getElementById("width-input");
 const heightInput = document.getElementById("height-input");
-const plots = document.querySelectorAll(".plots");
 const plotNum = document.getElementById("plotNum");
+const subDisplayContainer = document.querySelector(".sub-display-container");
 const plotDisplay = document.querySelector(".plot-display");
+const downloadButton = document.querySelector(".download-btn");
+console.log(downloadButton);
+let plots;
 
-let islegends, legends, plotInfos, curveNums;
+let islegends, legends, plotInfos, curveNums, rowInput, columnInput;
 let clonePlotElement = document.querySelector(".plot-info").cloneNode(true);
 let cloneCurveElement = document.querySelector(".curve-info").cloneNode(true);
 let smoothCurve = false;
 const button = document.querySelector(".show-btn");
+let isSuper = false;
 function variableCall() {
   islegends = document.querySelectorAll(".isLegend input");
   legends = document.querySelectorAll(".legend-container");
   plotInfos = document.querySelectorAll(".plot-info");
   curveNums = document.querySelectorAll(".curve-num input");
+  rowInput = document.getElementById("row-input");
+  columnInput = document.getElementById("column-input");
   console.log(curveNums);
 }
 variableCall();
@@ -32,20 +39,33 @@ document.addEventListener("click", (e) => {
   });
   if (isSupTitle.checked == true) {
     supTitleContainer.style.display = "flex";
+    isSuper = true;
   } else {
     supTitleContainer.style.display = "none";
+    isSuper = false;
+  }
+  if (e.target == downloadButton) {
+    console.log("jwgujbgerubge");
+    html2canvas(subDisplayContainer).then(function (canvas) {
+      const image = canvas.toDataURL("image/png", 1.0);
+      const link = document.createElement("a");
+
+      link.download = "myPlot.png";
+      link.href = image;
+      link.click();
+    });
   }
 });
 
 document.addEventListener("change", (e) => {
   if (e.target == plotNum) {
     let value = eval(plotNum.value);
-    if(value >= 2){
+    if (value >= 2) {
       columnRowContainer.style.display = "flex";
-    }
-    else{
+    } else {
       columnRowContainer.style.display = "none";
     }
+    variableCall();
     // console.log(typeof(eval(value)));
     let length = plotInfos.length;
     if (value > length) {
@@ -57,9 +77,11 @@ document.addEventListener("change", (e) => {
           length + 1
         }`;
         clonePlotElement.dataset.plotNo = `${length + i}`;
-        clonePlotElement.querySelectorAll(".mode-sub-container input").forEach((element)=>{
-          element.name = `mode-curve1-plot${length+1}`;
-        });
+        clonePlotElement
+          .querySelectorAll(".mode-sub-container input")
+          .forEach((element) => {
+            element.name = `mode-curve1-plot${length + 1}`;
+          });
         plotInfos[length - 1].insertAdjacentElement(
           "afterend",
           clonePlotElement
@@ -77,6 +99,32 @@ document.addEventListener("change", (e) => {
       }
     }
   }
+  if (e.target == widthInput) {
+    if (plots != null) {
+      plots.forEach((element) => {
+        element.style.width = `${eval(widthInput.value)}px`;
+      });
+    }
+  }
+  if (e.target == heightInput) {
+    if (plots != null) {
+      plots.forEach((element) => {
+        element.style.height = `${eval(heightInput.value)}px`;
+      });
+    }
+  }
+  if (plotNum.value >= 2) {
+    if (e.target == rowInput) {
+      plotDisplay.style.gridTemplateRows = `repeat(${eval(
+        rowInput.value
+      )},auto)`;
+    }
+    if (e.target == columnInput) {
+      plotDisplay.style.gridTemplateColumns = `repeat(${eval(
+        columnInput.value
+      )}, auto)`;
+    }
+  }
   curveNums.forEach((element) => {
     if (e.target == element) {
       let value = eval(element.value);
@@ -92,9 +140,11 @@ document.addEventListener("change", (e) => {
             ".curve-info-header"
           ).innerHTML = `<h2>Curve information of no. ${length + i}</h2>`;
           cloneCurveElement.dataset.curveNo = `${length + i}`;
-          cloneCurveElement.querySelectorAll(".mode-sub-container input").forEach((element)=>{
-            element.name = `mode-curve${length+1}-plot${plotNo}`;
-          });
+          cloneCurveElement
+            .querySelectorAll(".mode-sub-container input")
+            .forEach((element) => {
+              element.name = `mode-curve${length + 1}-plot${plotNo}`;
+            });
           curveInfos[length - 1].insertAdjacentElement(
             "afterend",
             cloneCurveElement
@@ -112,17 +162,6 @@ document.addEventListener("change", (e) => {
       }
     }
   });
-  if(e.target == widthInput){
-    plots.forEach(element=>{
-      console.log("btrin", widthInput.value);
-      element.style.width=`${eval(widthInput.value)}px`
-    });
-  }
-  if(e.target == heightInput){
-    plots.forEach(element=>{
-      element.style.height=`${eval(heightInput.value)}px`
-    });
-  }
 });
 
 document.addEventListener("input", (e) => {
@@ -134,17 +173,17 @@ document.addEventListener("input", (e) => {
 
 button.addEventListener("click", (e) => {
   smoothCurve = document.querySelector("#isCubic").checked;
-  let superTitleData;
   if (document.querySelector("#isSupTitle").checked) {
-    superTitleData = extractSuperTitleData(
-      document.querySelector(".sup-title-container")
-    );
+    showSuperTitleData(document.querySelector(".sup-title-container"));
   }
   for (let i = 0; i < eval(plotNum.value); i++) {
     let curveInfos = plotInfos[i].querySelectorAll(".curve-info");
     let curveInfoLength = curveInfos.length;
     let errorContainers = plotInfos[i].querySelectorAll(".error-message");
     let curveData = extractCurveData(curveInfos, errorContainers);
+    if (curveData == null) {
+      return;
+    }
     let axisRangeData = extractAxisData(
       plotInfos[i].querySelector(".sub-axis-range-container")
     );
@@ -165,14 +204,17 @@ button.addEventListener("click", (e) => {
         plotInfos[i].querySelector("#select-legend-loc").value;
       console.log(legendData);
     }
-    if(plotDisplay.querySelector(`#myPlot${i+1}`) == null){
+    if (plotDisplay.querySelector(`#myPlot${i + 1}`) == null) {
       let div = document.createElement("div");
-      div.setAttribute('id', `myPlot${i+1}`);
-      div.setAttribute('class', `plots`);
+      div.setAttribute("id", `myPlot${i + 1}`);
+      div.setAttribute("class", `plots`);
       plotDisplay.appendChild(div);
+      div.style.width = `${eval(widthInput.value)}px`;
+      div.style.height = `${eval(heightInput.value)}px`;
     }
+    plots = document.querySelectorAll(".plots");
     drawPlot(
-      i+1,
+      i + 1,
       curveInfoLength,
       curveData,
       axisRangeData,
@@ -182,6 +224,13 @@ button.addEventListener("click", (e) => {
       gridData,
       legendData
     );
+  }
+  if (eval(plotNum.value) == 1) {
+    plotDisplay.style.gridTemplateColumns = `auto`;
+  } else {
+    plotDisplay.style.gridTemplateColumns = `repeat(${eval(
+      columnInput.value
+    )}, auto)`;
   }
 });
 
@@ -196,6 +245,22 @@ function extractCurveData(curveInfos, errorContainers) {
   let mode = [];
   let regex = /[0-9]+[.]?[0-9]*/g;
   for (let j = 0; j < curveInfos.length; j++) {
+    if (
+      curveInfos[j].querySelector("#xAxis1").value == "" &&
+      curveInfos[j].querySelector("#yAxis1").value == ""
+    ) {
+      errorContainers[j].innerHTML = "x and y values are not written!!!";
+      errorContainers[j].style.display = "flex";
+      return null;
+    } else if (curveInfos[j].querySelector("#xAxis1").value == "") {
+      errorContainers[j].innerHTML = "x values are not written!!!";
+      errorContainers[j].style.display = "flex";
+      return null;
+    } else if (curveInfos[j].querySelector("#yAxis1").value == "") {
+      errorContainers[j].innerHTML = "y values are not written!!!";
+      errorContainers[j].style.display = "flex";
+      return null;
+    }
     xData.push(
       curveInfos[j]
         .querySelector("#xAxis1")
@@ -208,9 +273,11 @@ function extractCurveData(curveInfos, errorContainers) {
         .value.match(regex)
         .map((el) => eval(el))
     );
+
     if (xData[j].length != yData[j].length) {
       errorContainers[j].innerHTML = "x and y values are not equal!!";
       errorContainers[j].style.display = "flex";
+      return null;
     }
     lineStyle.push(curveInfos[j].querySelector("#select-line-style").value);
     lineColor.push(curveInfos[j].querySelector("#line-color-input").value);
@@ -218,13 +285,19 @@ function extractCurveData(curveInfos, errorContainers) {
       eval(curveInfos[j].querySelector("#line-width-input").value)
     );
     labelForLegend.push(curveInfos[j].querySelector("#labelLegend").value);
-    if(curveInfos[j].querySelector(".mode-sub-container #marker").checked){
-      mode.push(curveInfos[j].querySelector(".mode-sub-container #marker").value);
-    }
-    else if(curveInfos[j].querySelector(".mode-sub-container #lineWithMarker").checked){
-      mode.push(curveInfos[j].querySelector(".mode-sub-container #lineWithMarker").value);
-    }
-    else if(curveInfos[j].querySelector(".mode-sub-container #line").checked){
+    if (curveInfos[j].querySelector(".mode-sub-container #marker").checked) {
+      mode.push(
+        curveInfos[j].querySelector(".mode-sub-container #marker").value
+      );
+    } else if (
+      curveInfos[j].querySelector(".mode-sub-container #lineWithMarker").checked
+    ) {
+      mode.push(
+        curveInfos[j].querySelector(".mode-sub-container #lineWithMarker").value
+      );
+    } else if (
+      curveInfos[j].querySelector(".mode-sub-container #line").checked
+    ) {
       mode.push(curveInfos[j].querySelector(".mode-sub-container #line").value);
     }
     combinedXY.push(getCombinedXY(xData[j], yData[j]));
@@ -237,7 +310,7 @@ function extractCurveData(curveInfos, errorContainers) {
     lineColor: lineColor,
     linewidth: linewidth,
     labelForLegend: labelForLegend,
-    mode:mode
+    mode: mode,
   };
 }
 
@@ -305,7 +378,7 @@ function extractGridData(gridContainer) {
   return gridData;
 }
 
-function extractSuperTitleData(superTitleContainer) {
+function showSuperTitleData(superTitleContainer) {
   let superTitleData = {};
   superTitleData.title = superTitleContainer.querySelector("#supTitle").value;
   superTitleData.color = superTitleContainer.querySelector(
@@ -317,7 +390,22 @@ function extractSuperTitleData(superTitleContainer) {
   superTitleData.fontSize = eval(
     superTitleContainer.querySelector("#supTitleFontSize").value
   );
-  return superTitleData;
+  if (document.getElementById("superTitleHeader") == null) {
+    let header = document.createElement("h1");
+    header.setAttribute("id", "superTitleHeader");
+    header.style.color = superTitleData.color;
+    header.style.fontSize = `${eval(superTitleData.fontSize)}px`;
+    header.innerHTML = superTitleData.title;
+    header.style.fontFamily = superTitleData.font;
+    header.style.textAlign = "center";
+    plotDisplay.insertAdjacentElement("beforebegin", header);
+  } else {
+    let header = document.getElementById("superTitleHeader");
+    header.style.color = superTitleData.color;
+    header.style.fontSize = `${eval(superTitleData.fontSize)}px`;
+    header.innerHTML = superTitleData.title;
+    header.style.fontFamily = superTitleData.font;
+  }
 }
 
 function drawPlot(
@@ -348,10 +436,10 @@ function drawPlot(
       width: curveData.linewidth[i],
     };
     trace.mode = curveData.mode[i];
-    if(smoothCurve){
-      trace.line.shape = 'spline';
-    }else{
-      trace.line.shape = 'linear';
+    if (smoothCurve) {
+      trace.line.shape = "spline";
+    } else {
+      trace.line.shape = "linear";
     }
     data.push(trace);
   }
