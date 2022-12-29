@@ -4,6 +4,7 @@
     box-sizing: border-box;
     outline: none;
     color: #01214a;
+    font-weight: 500;
 }
 input{
     background-color: transparent;
@@ -157,6 +158,7 @@ body{
 .mode-container p{
     font-size: 17px;
     color: #ed0404;
+    font-weight: 600;
 }
 .mode-sub-container{
     display: flex;
@@ -297,6 +299,7 @@ body{
     flex-direction: row;
     justify-content: center;
     column-gap: 12px;
+    margin-top: 10px;
 }
 .column-row-container p{
     font-size: 17px;
@@ -310,6 +313,7 @@ body{
     flex-direction: row;
     justify-content: center;
     column-gap: 12px;
+    margin-top: 10px;
 }
 .width-height-container label{
     font-size: 16px;
@@ -332,6 +336,7 @@ body{
 }
 .is-container label{
     color: #ed0404;
+    font-weight: 600;
 }
 .is-container input{
     width: 15px;
